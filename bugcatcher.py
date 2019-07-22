@@ -1,4 +1,4 @@
-#Bugcatcher snippet
+# Bugcatcher snippet
 def bug_catch():
     try:
         raise ValueError('Represents a hidden bug, do not catch this')
