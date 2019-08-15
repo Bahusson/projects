@@ -5,13 +5,14 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import ugettext_lazy as _
 
 # Tu jest założenie, że rozszerzony manager jest w tym samym folderze.
+# Wstaw ją do models.py w jakiejś apce.
 from .managers import UserManager
 
 
 # Klasa zmienia autentykację Usera na email jak w Core2 i wielu innych.
 # Dodaje też nowe pola. Najlepiej ją wstawić na początku projektu.
 # Zależy od UserManagera.
-class ExtendedUser(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin):
     # Pole autentykujące musi mieć "unique=True".
     email = models.EmailField(_('email address'), unique=True)
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
@@ -54,4 +55,8 @@ class ExtendedUser(AbstractBaseUser, PermissionsMixin):
 # To mówi Django, żeby zamiast standardowego modelu używał powyższego
 
 
-AUTH_USER_MODEL = 'ścieżka.do_twojego.User'
+AUTH_USER_MODEL = 'nazwa_apki.User'
+
+# # # Zarejestruj ją jeszcze normalnie w admin.py
+from .models import User
+admin.site.register(User)
