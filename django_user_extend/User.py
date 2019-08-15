@@ -49,3 +49,9 @@ class ExtendedUser(AbstractBaseUser, PermissionsMixin):
         Sends an email to this User.
         '''
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+# # # Zmień odpowiednio i dodaj to do settings.py # # #
+# To mówi Django, żeby zamiast standardowego modelu używał powyższego
+
+
+AUTH_USER_MODEL = 'ścieżka.do_twojego.User'
