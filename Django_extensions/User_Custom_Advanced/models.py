@@ -1,30 +1,26 @@
+from __future__ import unicode_literals
 from django.db import models
 from django.core.mail import send_mail
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import ugettext_lazy as _
 
-# Tu jest założenie, że rozszerzony manager jest w tym samym folderze.
-# Wstaw ją do models.py w jakiejś apce.
 from .managers import UserManager
 
 
-# Klasa zmienia autentykację Usera na email jak w Core2 i wielu innych.
-# Dodaje też nowe pola. Najlepiej ją wstawić na początku projektu.
-# Zależy od UserManagera.
+# Klasa zmienia autentykację Usera na email jak w Core2.
 class User(AbstractBaseUser, PermissionsMixin):
-    # Pole autentykujące musi mieć "unique=True".
     email = models.EmailField(_('email address'), unique=True)
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
+    is_staff = models.BooleanField(_('staff status'), default=False,)
     is_active = models.BooleanField(_('active'), default=True)
     avatar = models.ImageField(upload_to='avatars', null=True, blank=True)
     quarter = models.CharField(_('quarter'), max_length=2, blank=True)
 
     objects = UserManager()
 
-    # Tutaj ustalasz które pole posłuży do autentykacji zamiast username.
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
